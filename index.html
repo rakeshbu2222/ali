@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Birthday Surprise</title>
+
+<!-- Important for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+margin:0;
+padding:0;
+font-family:Arial;
+text-align:center;
+color:white;
+overflow:hidden;
+
+background-image: url("anime.jpg");
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+min-height:100vh;
+}
+
+h1{
+margin-top:80px;
+font-size:8vw;
+text-shadow:2px 2px 10px black;
+}
+
+#message{
+font-size:5vw;
+margin:20px;
+text-shadow:1px 1px 8px black;
+}
+
+img{
+width:70%;
+max-width:300px;
+border-radius:20px;
+margin-top:20px;
+box-shadow:0px 0px 20px black;
+}
+
+button{
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:10px;
+background:white;
+color:#ff416c;
+margin-top:30px;
+cursor:pointer;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🎉 Happy Birthday Ali 🎉</h1>
+
+<div id="message"></div>
+
+<img src="photo.jpg">
+
+<br>
+
+<button id="surpriseBtn" onclick="startSurprise()">Open Your Surprise 🎁</button>
+
+<audio id="music">
+<source src="birthday.mp3" type="audio/mp3">
+</audio>
+
+<canvas id="confetti"></canvas>
+
+<script>
+
+let text = "You are not just my friend, you are like my second mother who always cares for me and supports me in every situation. I’m truly lucky to have someone like you in my life. I’m really sorry for anything bad that happened between us this year. Please forgive me if I hurt you in any way. Wishing you happiness, love, and a wonderful year ahead. ❤️";
+
+let i = 0;
+
+function typeEffect(){
+if(i < text.length){
+document.getElementById("message").innerHTML += text.charAt(i);
+i++;
+setTimeout(typeEffect,40);
+}
+}
+
+function startSurprise(){
+
+document.getElementById("surpriseBtn").style.display="none";
+
+typeEffect();
+
+document.getElementById("music").play();
+
+startConfetti();
+
+}
+
+function startConfetti(){
+
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let pieces = [];
+
+for(let i=0;i<150;i++){
+pieces.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*10+5,
+speed:Math.random()*3+2
+});
+}
+
+function update(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="white";
+
+pieces.forEach(p=>{
+ctx.fillRect(p.x,p.y,p.size,p.size);
+p.y += p.speed;
+
+if(p.y > canvas.height){
+p.y = 0;
+}
+});
+
+requestAnimationFrame(update);
+
+}
+
+update();
+
+}
+
+</script>
+
+</body>
+</html>
